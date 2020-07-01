@@ -1,0 +1,145 @@
+#include <LiquidCrystal.h>
+
+unsigned  int h = 0 ;	
+unsigned  int m = 0 ;	
+unsigned  int s = 0 ;	
+int read_pin[5] = {10,9,8,7,6};
+LiquidCrystal lcd(12, 11, 2 ,3,4, 5);
+
+void setup()
+{
+
+  Serial.begin(9600); 
+  
+  pinMode(13, OUTPUT);
+  pinMode(10, INPUT) ;
+  pinMode(9, INPUT) ;
+  pinMode(8, INPUT) ;
+  pinMode(7, INPUT) ;
+  pinMode(6, INPUT) ; 
+  lcd.begin(16, 2); 
+  lcd.print("00:00:00");
+}
+
+void loop()
+{
+  for(int i = 0 ; i < 5 ; i ++){    
+    int switch_state = digitalRead(read_pin[i]);  
+    
+    if(switch_state == HIGH){	    
+      switch(i){				
+        case 0  :	
+        			h++;
+        			if(h>99) h = 0;	
+        			lcd_display();  
+       				break;        
+        case 1  :
+        			m++;
+        			if(m==60){	
+                      m = 0 ;
+                      h++;
+                    }
+        			lcd_display();
+        			break;
+		case 2  : 
+        			s++;
+        			if(s==60){
+                      s = 0 ;
+                      m++;
+                    }
+       				lcd_display();
+					break;
+        case 3  :
+        			dec();
+        			break;
+        case 4  :	
+        			reset();
+        			lcd_display();
+        			break;
+		default :		
+                    lcd.setCursor(0, 0);
+                    Serial.println("button read exception throw");
+                    lcd.print("Wiring diagram");
+                    lcd.setCursor(0, 1);
+                    lcd.print("ERROR");
+                    delay(3000);
+        			setup();
+        			break;
+      }
+    }
+  }
+  delay(150); 
+ }
+
+void dec(){
+  bool reset_switch = false;
+  
+  for(int i = 0 ; i < 5 ; i ++){    
+    int tmp_h = h ;
+    int tmp_m = m ;
+    int tmp_s = s ;
+ 
+      while(h>0 || m>0 || s>0){
+        if(digitalRead(6)==HIGH){
+          reset_switch = true;
+          break;
+        }
+
+        if(s==0 && m>0 && h!=0){	
+            m--;
+            s=60;		
+        }  
+        else if(s==0 &&  m==0 && h>0)
+        {
+            s=60;
+            m=59;
+            h--;		
+        }
+        else if(s==0 && m>0 && h==0)
+        {
+            s=60;
+            m--;		
+        }   
+        s--;			
+        lcd_display();	
+        delay(1000);	
+
+      }  
+      if(reset_switch==false && (tmp_h!=0 || tmp_m!=0 || tmp_s!=0)){
+        digitalWrite(13,HIGH);
+        delay(500);
+        digitalWrite(13,LOW);
+        delay(500);
+        h = tmp_h ;
+        m = tmp_m ;
+        s = tmp_s ;
+        lcd_display();	     	 
+      }else{   
+        reset();
+      	lcd_display();      
+      }
+  }
+    
+}
+
+void lcd_display(){
+ lcd.setCursor(0, 0);
+ lcd.print(h/10);
+ lcd.setCursor(1, 0);
+ lcd.print(h%10);
+ lcd.setCursor(3, 0);
+ lcd.print(m/10);
+ lcd.setCursor(4, 0);
+ lcd.print(m%10);
+ lcd.setCursor(6, 0);
+ lcd.print(s/10);
+ lcd.setCursor(7, 0);
+ lcd.print(s%10);  
+}
+
+void reset(){	
+  h=0;
+  m=0;
+  s=0;
+
+}
