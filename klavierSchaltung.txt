@@ -1,4 +1,3 @@
-  // Initialisierung Knöpfe
 int but1 = 2;
 int but2 = 3;
 int but3 = 4;
@@ -7,7 +6,10 @@ int but5 = 6;
 int but6 = 7;
 int but7 = 8;
 int but8 = 9;
-  // Initialisierung Buzzer
+int but9 = 10;
+int but10 = 11;
+int but11 = 12;
+
 int buzzer = 13;
 
 void setup()
@@ -21,6 +23,9 @@ void setup()
   pinMode(but6,INPUT);
   pinMode(but7,INPUT);
   pinMode(but8,INPUT);
+  pinMode(but9,INPUT);
+  pinMode(but10,INPUT);
+  pinMode(but11,INPUT);
   
   //Deklaration Buzzer
   pinMode(buzzer,OUTPUT);
@@ -38,31 +43,43 @@ void loop()
   int b6 = digitalRead(but6);
   int b7 = digitalRead(but7);
   int b8 = digitalRead(but8);
+  int b9 = digitalRead(but9);
+  int b10 = digitalRead(but10);
+  int b11 = digitalRead(but11);
   
   // Abspielen der Töne
   if( b1 == 1 ){
-     tone(buzzer,300,100);
+     tone(buzzer,100,100);
   }
     if( b2 == 1 ){
-     tone(buzzer,400,100);
+     tone(buzzer,200,100);
   }
     if( b3 == 1 ){
-     tone(buzzer,500,100);
+     tone(buzzer,300,100);
   }
     if( b4 == 1 ){
-     tone(buzzer,600,100);
+     tone(buzzer,400,100);
   }
     if( b5 == 1 ){
-     tone(buzzer,700,100);
+     tone(buzzer,500,100);
   }
     if( b6 == 1 ){
-     tone(buzzer,800,100);
+     tone(buzzer,600,100);
   }
     if( b7 == 1 ){
-     tone(buzzer,900,100);
+     tone(buzzer,700,100);
   }
     if( b8 == 1 ){
+     tone(buzzer,800,100);
+  }
+    if( b9 == 1 ){
+     tone(buzzer,900,100);
+  }
+    if( b10 == 1 ){
      tone(buzzer,1000,100);
+  }
+    if( b11 == 1 ){
+     tone(buzzer,1100,100);
   }
     
   
