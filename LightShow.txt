@@ -1,0 +1,29 @@
+int timer = 200; // Dies entscheidet wie langsam
+
+void setup() {
+  // Initialisierung der Pins als Output
+  for (int thisPin = 2; thisPin < 8; thisPin++) {
+    pinMode(thisPin, OUTPUT);
+  }
+}
+
+void loop() {
+  
+  // Iteration von tiefstem zu höchstem pin
+  for (int thisPin = 2; thisPin <  8; thisPin++) {
+    // turn the pin on:
+    digitalWrite(thisPin, HIGH);
+    delay(timer);
+    // turn the pin off:
+    digitalWrite(thisPin, LOW);
+  }
+
+  // Iteration von höchstem zu tiefstem pin
+  for (int thisPin = 7; thisPin >= 2; thisPin--) {
+    // Anschalten des pins
+    digitalWrite(thisPin, HIGH);
+    delay(timer);
+    // Abschalten des pins
+    digitalWrite(thisPin, LOW);
+  }
+}
